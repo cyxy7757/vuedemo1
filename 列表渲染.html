@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>列表渲染</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+
+	<ul id="example-1">
+		<li v-for="item in items">
+			{{ item.message }}
+		</li>
+	</ul>
+
+
+	<ul id="example-2">
+		<li v-for="(item, index) in items"> {{parentMesage}}-{{ index }}-{{ item.message }} </li>
+	</ul>
+
+	<ul id="v-for-object" class="demo">
+		<li v-for="value in object"> {{ value }} </li>
+
+	</ul>
+
+
+	
+	<!-- <div id="todo-list-example">
+
+         <form v-on:submit.prevent="addNewTodo">
+           <label for="new-todo">Add a todo</label>
+           <input
+            v-model="newTodoText"
+            id="new-todo"
+            placeholder="E.g. Feed the cat"
+           >
+            <button>Add</button>
+         </form>
+
+         <ul>
+         <li
+            is="todo-item"
+            v-for="(todo, index) in todos"
+            v-bind:key="todo.id"
+            v-bind:title="todo.title"
+             v-on:remove="todos.splice(index, 1)"
+        ></li>
+         </ul>
+    </div> -->
+
+
+    <div id="todo-list-example">
+		
+		<form  v-on:submit.prevent="addNewTodo">
+			<label for="new-todo">Add a todo</label>
+			<input 
+			 v-model="newTodoText" 
+			 id="new-todo"
+			 placeholder="E.g. Feed the cat"
+			>
+			<button>Add</button>
+		</form>
+
+		<ul>
+		<li 
+			is="todo-item" 
+			v-for="{todo, index} in todos" 
+			v-bind:key="todo.id" 
+			v-bind:title="todo.title" 
+			v-on:remove="todos.splice(index, 1)"
+			></li>
+		</ul>
+
+	</div>
+
+		
+
+	<script>
+		
+		var example1 = new Vue({
+			el: "#example-1",
+			data: {
+				items: [
+					{message: 'foo'},
+					{message: 'Bar'}
+
+				]
+			}
+		})
+		// 在 v-for 块中，我们拥有对父作用域属性的完全访问权限。v-for 还支持一个可选的第二个参数为当前项的索引。
+		var example2 = new Vue({
+			el: "#example-2",
+			data: {
+				parentMesage: 'Parent',
+				items: [
+					{message: '饺子'},
+					{message: '面条'},
+					{message: '包子'}
+				]
+			}
+		})
+
+		// v-for 迭代 对象的属性
+		var example3 = new Vue({
+			el: "#v-for-object",
+			data: {
+				object: {
+					firstName: 'John',
+					lastName: 'Doe',
+					age: 30
+				}
+			}
+		})
+
+		// 完整的TODO list 
+		// 组件
+		Vue.component('todo-item', {
+			template: '\
+    <li>\
+      {{ title }}\
+      <button v-on:click="$emit(\'remove\')">Remove</button>\
+    </li>\
+  ',
+			props: ['title']
+		})
+
+		new Vue({
+			el: "#todo-list-example",
+			data: {
+				newTodoText: '',
+				todos: [
+					{id: 1, title:'Do the dishes'},
+					{id: 2, title:'Take out the trash'},
+					{id: 3, title:'Mow the lawn'}
+				],
+				nextTodoId: 4
+			},
+			methods: {
+				addNewTodo: function(){
+					this.todos.push({
+						id: this.nextTodoId++,
+						title: this.newTodoText
+					})
+					this.newTodoText = ''
+				}
+			}
+
+		})
+
+// 		Vue.component('todo-item', {
+//   template: '\
+//     <li>\
+//       {{ title }}\
+//       <button v-on:click="$emit(\'remove\')">Remove</button>\
+//     </li>\
+//   ',
+//   props: ['title']
+// })
+
+// new Vue({
+//   el: '#todo-list-example',
+//   data: {
+//     newTodoText: '',
+//     todos: [
+//       {
+//         id: 1,
+//         title: 'Do the dishes',
+//       },
+//       {
+//         id: 2,
+//         title: 'Take out the trash',
+//       },
+//       {
+//         id: 3,
+//         title: 'Mow the lawn'
+//       }
+//     ],
+//     nextTodoId: 4
+//   },
+//   methods: {
+//     addNewTodo: function () {
+//       this.todos.push({
+//         id: this.nextTodoId++,
+//         title: this.newTodoText
+//       })
+//       this.newTodoText = ''
+//     }
+//   }
+// })
+
+	</script>
+	
+</body>
+</html>
