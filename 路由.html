@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>简单/动态路由</title>
+
+	<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+<body>
+
+	<div id="app">
+		
+		<h1>Hello App!</h1>
+
+		<router-link to="/foo">Go to Foo</router-link>
+		<router-link to="/bar">Go to Bar</router-link>
+
+		<router-view></router-view>
+
+	</div>
+
+	<div id="app1">
+		
+		<h1>dynamic router!</h1>
+		<p>
+		<router-link to="/user/foo">Go to Foo</router-link>
+		<router-link to="/user/bar">Go to Bar</router-link>
+
+		</p>
+		
+
+		<router-view></router-view>
+
+	</div>
+
+
+	<script>
+		//简单路由
+	const Foo = { template: '<div>foo love u</div>'}
+	const Bar = { template: '<div>bar hate u</div>'}
+
+	const routes = [
+	{ path: '/foo', component: Foo},
+	{ path: '/bar', component: Bar}
+	]
+
+	const router = new VueRouter({
+		routes
+	})
+
+	const app = new Vue({
+		router
+	}).$mount('#app')
+
+
+
+
+		
+
+	</script>
+
+	<script>
+		// 动态路由
+	
+		const User = { template: `<div>User {{ $route.params.id }} </div>`}
+		const router1 = new VueRouter({
+			routes: [
+				{ path: '/user/:id', component: User}
+			]
+		})
+
+		const app1 = new Vue({ router:router1 }).$mount('#app1')
+	</script>
+	
+</body>
+</html>
